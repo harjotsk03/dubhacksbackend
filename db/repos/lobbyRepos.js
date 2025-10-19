@@ -1,10 +1,9 @@
 const pool = require("../index");
 
-async function insertLobby(lobbyId) {
+async function insertLobby() {
   try {
     const result = await pool.query(
-      `INSERT INTO lobbies (id, created_at) VALUES ($1, NOW()) RETURNING *`,
-      [lobbyId]
+      `INSERT INTO lobbies (created_at) VALUES (NOW()) RETURNING *`
     );
     return result.rows[0];
   } catch (error) {
