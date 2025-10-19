@@ -24,4 +24,11 @@ async function joinLobby(userId, lobbyId) {
   return { lobbyId, users };
 }
 
-module.exports = { createLobby, getLobbies, joinLobby };
+
+async function leaveLobby(userId, lobbyId) {
+  const removed = await lobbyMembersRepo.removeUserFromLobby(userId, lobbyId);
+  const users = await lobbyMembersRepo.getLobbyMembers(lobbyId);
+  return { lobbyId, users, removed };
+}
+
+module.exports = { createLobby, getLobbies, joinLobby, leaveLobby };

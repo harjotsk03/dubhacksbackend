@@ -23,7 +23,8 @@ async function getLobbyController(req, res) {
 async function joinLobbyController(req, res) {
   try {
     const { lobbyId } = req.params;
-    const { userId } = req.body; // frontend must send userId
+    const { userId } = req.body;
+    console.log(lobbyId, userId);
     if (!userId) return res.status(400).json({ error: "Missing userId" });
 
     const result = await lobbyService.joinLobby(userId, lobbyId);
@@ -34,8 +35,22 @@ async function joinLobbyController(req, res) {
   }
 }
 
+async function leaveLobbyController(req, res) {
+  const { lobbyId } = req.params;
+  const { userId } = req.body;
+  try {
+    const lobby = await lobbyService.leaveLobby(userId, lobbyId);
+    res.status(200).json(lobby);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: "Internal server error, failed to leave lobby" });
+  }
+}
+
 module.exports = {
   createLobbyController,
   getLobbyController,
   joinLobbyController,
+  leaveLobbyController,
 };
