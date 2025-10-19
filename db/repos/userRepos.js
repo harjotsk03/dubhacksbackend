@@ -1,13 +1,5 @@
 const pool = require("../index");
 
-pool.query("SELECT NOW()", (err, res) => {
-  if (err) {
-    console.error("❌ Database connection failed:", err);
-  } else {
-    console.log("✅ Database connected at:", res.rows[0].now);
-  }
-});
-
 async function insertUser({ full_name, email, password, account_type }) {
   const result = await pool.query(
     `INSERT INTO users (full_name, email, password, account_type)
@@ -26,6 +18,12 @@ async function getUserBy(type, value) {
   return result.rows[0];
 }
 
+async function getUserBySecure(type, value) {
+  const result = await pool.query(`SELECT * FROM users WHERE ${type} = $1`, [
+    value,
+  ]);
+  return result.rows[0];
+}
 
 async function getAllUsers() {
   const result = await pool.query(
@@ -37,5 +35,6 @@ async function getAllUsers() {
 module.exports = {
   insertUser,
   getUserBy,
+  getUserBySecure,
   getAllUsers,
 };

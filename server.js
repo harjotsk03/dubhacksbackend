@@ -12,15 +12,17 @@ pool.query("SELECT NOW()")
 
 // Routes
 const userRoutes = require("./api/v1/routes/users");
+const lobbyRoutes = require("./api/v1/routes/lobbies");
 
 // Sockets
-// const lobbySocket = require("./sockets/lobbySocket");
+const lobbySocket = require("./sockets/lobbySockets.js");
 
 const app = express();
 app.use(bodyParser.json());
 
 // Mount routes
 app.use("/user", userRoutes);
+app.use("/lobby", lobbyRoutes);
 
 // Basic test route
 app.get("/", (req, res) => res.send("Server is running!"));
@@ -35,6 +37,6 @@ const io = new Server(server, {
 });
 
 // Delegate WebSocket logic to lobbySocket
-// lobbySocket(io);
+lobbySocket(io);
 
 server.listen(3004, () => console.log("✅ Server running on port 3004"));

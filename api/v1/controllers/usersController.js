@@ -45,14 +45,14 @@ async function createUserChildController(req, res) {
 
 
 async function loginController(req, res) {
-  const { email, password } = req.body;
-  if (!email || !password)
+  const { email, password_raw } = req.body;
+  if (!email || !password_raw)
     return res.status(400).json({ error: "Missing credentials" });
 
   try {
     const { user, accessToken, refreshToken } = await userService.loginUser({
       email,
-      password,
+      password_raw,
     });
     res.json({ user, accessToken, refreshToken });
   } catch (err) {
