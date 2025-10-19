@@ -30,4 +30,7 @@ app.use("/lobby", lobbyRoutes);
 app.get("/", (req, res) => res.send("Server is running!"));
 
 // Start server
-app.listen(3004, () => console.log("✅ Server running on port 3004"));
+app.listen(3004, "0.0.0.0", () =>
+  console.log("✅ Server running on port 3004")
+);
+
